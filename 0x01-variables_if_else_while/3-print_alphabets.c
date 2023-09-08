@@ -1,26 +1,28 @@
-#include <stdio.h>
+#include <unistd.h>
+
 /**
  * main - Entry point
- * Return: 0
+ *
+ * Return: Always 0 (success)
  */
 int main(void)
 {
-	char c = 'a';
+	char lowercase = 'a';
+	char uppercase = 'A';
 
-	while (c <= 'z')
+	while (lowercase <= 'z')
 	{
-		putchar(c);
-		c++;
+		putchar(lowercase);
+		lowercase++;
 	}
 
-	c = 'A';
-
-	while (c <= 'Z');
+	while (uppercase <= 'Z')
 	{
-		putchar(c);
-		c++;
+		putchar(uppercase);
+		uppercase++;
 	}
 
 	putchar('\n');
+
 	return (0);
 }
