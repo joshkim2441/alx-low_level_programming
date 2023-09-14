@@ -21,20 +21,20 @@ int main(void)
 		n /= 2;
 	}
 
-	for (i = 3; i <= sqrt(n); i = 1 + 2)
+	for (i = 3; i <= sqrt(n); i = i + 2)
 	{
 		while (n % i == 0)
 		{
 			max = 1;
-			n /= i;
+			n = n / i;
 		}
 	}
 
 	if (n > 2)
-		max = n;
 	{
-		printf("%1ld\n", max);
+		max = n;
 	}
 
+	printf("%1ld\n", max);
 	return (0);
 }
