@@ -68,8 +68,8 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 			return (0);
 		*(r + num) = (tmp_tot % 10) + '0';
 		num++;
-		y++;
-		x++;
+		y--;
+		x--;
 	}
 	if (num == size_r)
 		return (0);
