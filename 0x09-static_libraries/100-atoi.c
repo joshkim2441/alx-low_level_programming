@@ -1,34 +1,49 @@
 #include "main.h"
 
 /**
- * _atoi - function to convert a string to an integer.
- * @s: the input string.
- * Return: an integer.
+ * _atoi - converts a string to an integer
+ * @s: pointer to the string to be converted
+ * Return: result * sign
  */
+
 int _atoi(char *s)
 {
-	unsigned int count = 0, size = 0, ab = 0, ps = 1, m = 1, i;
+	int c, d, e, f, len, num;
 
-	while (*(s + count) != '\0')
+	c = 0;
+	d = 0;
+	e = 0;
+	f = 0;
+	len = 0;
+	num = 0;
+
+	while (s[len] != '\0')
+		len++;
+
+	while (c < len && f == 0)
 	{
-		if (size > 0 && (*(s + count) < '0' || *(s + count) > '9'))
-			break;
-		if (*(s + count) == '-')
-			ps *= -1;
+		if (s[c] == '-')
+			++d;
 
-		if ((*(s + count) >= '0') && (*(s + count) <= '9'))
+		if (s[c] >= '0' && s[c] <= '9')
 		{
-			if (size > 0)
-				m *= 10;
-			size++;
-		}
-		count++;
-	}
+			num = s[c] - '0';
 
-	for (i = count - size; i < count; i++)
-	{
-		ab = ab + ((*(s + i) - 48) * m);
-		m /= 10;
+			if (d % 2)
+				num = -num;
+			e = e * 10 + num;
+			f = 1;
+
+			if (s[c + 1] < '0' || s[c + 1] > '9')
+				break;
+
+			f = 0;
+		}
+		c++;
 	}
-	return (ab * ps);
+	if (f == 0)
+		return (0);
+
+	return (e);
 }
+
