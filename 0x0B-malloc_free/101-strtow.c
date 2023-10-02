@@ -3,6 +3,32 @@
 #include <string.h>
 
 /**
+ * word_cnt - counts number of words in string
+ * @st: string to evaluate
+ * Return: word count.
+ */
+
+int word_cnt(char *st)
+{
+	int flg, x, y;
+
+	flg = 0;
+	y = 0;
+
+	for (x = 0; st[x] != '\0'; x++)
+	{
+		if (st[x] == ' ')
+			flg = 0;
+		else if (flg == 0)
+		{
+			flg = 1;
+			y++;
+		}
+	}
+	return (y);
+}
+
+/**
  * **strtow - splits a string into words and
  * returns a pointer to an array of srings
  * @str: the split string
@@ -12,41 +38,40 @@
 
 char **strtow(char *str)
 {
-	char **words;
-	int x, y, z, l, word_cnt = 0, len;
+	char **grid, *temp;
+	int y, z = 0, words, len = 0, x = 0, strt, end;
 
-	if (str == NULL || str[0] == '\0')
+	while (*(str + len))
+		len++;
+	words = word_cnt(str);
+	if (words == 0)
 		return (NULL);
 
-	for (x = 0; str[x] != '\0'; x++)
-		if ((str[x] != ' ' && str[x + 1] == ' ') ||
-				(str[x] != ' ' && str[x + 1] == '\0'))
-			word_cnt++;
-
-	words = malloc((word_cnt + 1) * sizeof(char *));
-	if (words == NULL)
+	grid = (char **) malloc(sizeof(char *) * (words + 1));
+	if (grid == NULL)
 		return (NULL);
 
-	for (x = 0, z = 0; x < word_cnt; x++)
+	for (y = 0; y <= len; y++)
 	{
-		while (str[z] == ' ')
-			z++;
-		for (len = 0; str[z + len] != ' ' && str[z + len] != '\0'; len++)
-			words[x] = malloc((len + 1) * sizeof(char));
-		if (words[x] == NULL)
+		if (str[y] == ' ' || str[y] == '\0')
 		{
-			for (y = 0; y < x; y++)
-
-				free(words[y]);
-			free(words);
-			return (NULL);
+			if (x)
+			{
+				end = y;
+				temp = (char *) malloc(sizeof(char) * (x + 1));
+				if (temp == NULL)
+					return (NULL);
+				while (strt < end)
+					*temp++ = str[strt++];
+				*temp = '\0';
+				grid[z] = temp - x;
+				z++;
+				x = 0;
+			}
 		}
-		for (l = 0; l < len; l++)
-			words[x][l] = str[z + l];
-		words[x][l] = '\0';
-		z += len;
+		else if (x++ == 0)
+			strt = y;
 	}
-	words[x] = NULL;
-
-	return (words);
+	grid[z] = NULL;
+	return (grid);
 }
