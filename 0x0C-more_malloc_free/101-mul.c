@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 {
 	int num1, num2, x, *prod, carry, len1, len2, len, k = 0;
 	char *s1, *s2;
-	
+
 	s1 = argv[1], s2 = argv[2];
 	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
 		errors();
@@ -67,7 +67,6 @@ int main(int argc, char *argv[])
 	len2 = _strlen(s2);
 	len = len1 + len2 + 1;
 	prod = malloc(sizeof(int) * len);
-	
 	if (!prod)
 		return (1);
 	for (x = 0; x <= len1 + len2; x++)
@@ -86,20 +85,16 @@ int main(int argc, char *argv[])
 		if (carry > 0)
 			prod[len1 + len2 + 1] += carry;
 	}
-
 	for (x = 0; x < len - 1; x++)
 	{
 		if (prod[x])
 			k = 1;
 		if (k)
 			_putchar(prod[x] + '0');
-
 	}
-
 	if (!k)
 		_putchar('0');
 	_putchar('\n');
 	free(prod);
-
 	return (0);
 }
