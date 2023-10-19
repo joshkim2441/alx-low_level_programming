@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * first - is executed before main the main function
+ * premain - is executed before main the main function
  * Return: no return
  */
 
