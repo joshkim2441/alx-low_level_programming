@@ -1,6 +1,5 @@
 #include <stdio.h>
-
-void premain(void) __attribute__((constructor));
+#include "lists.h"
 
 /**
  * premain - is executed before main the main function
