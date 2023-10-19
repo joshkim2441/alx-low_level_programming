@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 /**
- * premain - is executed before main the main function
+ * first - is executed before main the main function
  * Return: no return
  */
 
