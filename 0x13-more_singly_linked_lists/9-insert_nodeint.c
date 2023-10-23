@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * insert_node_at_index - function inserts a new node in a
+ * insert_nodeint_at_index - function inserts a new node in a
  * specific position in the list
  * @head: a pointer to the start node of the list
  * @idx: the index at which new node is inserted
@@ -9,7 +9,7 @@
  * Return: pointer to new node
 */
 
-listint_t *insert_node_at_index(listint_t **head, unsigned int idx, int n)
+listint_t *insert_nodeint_at_index(listint_t **head, unsigned int idx, int n)
 {
 	listint_t *tmp = *head;
 	unsigned int j;
