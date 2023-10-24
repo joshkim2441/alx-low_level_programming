@@ -12,7 +12,7 @@ size_t free_listint_safe(listint_t **h)
 	listint_t *temp;
 	listint_t *nodes = NULL;
 
-	if (!h)
+	if (h = NULL)
 		return (0);
 
 	while (!is_in_nodes(nodes, *h))
@@ -27,7 +27,7 @@ size_t free_listint_safe(listint_t **h)
 		free(temp);
 		counter++;
 	}
-	if (*h)
+	if (*h != NULL)
 		*h = NULL;
 
 		free_listnode(nodes);
