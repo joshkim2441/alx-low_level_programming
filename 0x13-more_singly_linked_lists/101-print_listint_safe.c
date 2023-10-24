@@ -8,33 +8,34 @@
 
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t nodes = 0;
-	const listint_t *slow_ptr, *fast_ptr;
+	size_t count = 0;
+	size_t new_node;
+	const listint_t *current = NULL;
+	const listint_t *prev = NULL;
 
 	if (head == NULL)
 		exit(98);
 
-	slow_ptr = head;
-	fast_ptr = head;
+	current = head;
 
-	while (slow_ptr && fast_ptr && fast_ptr->next)
+	while (current != NULL)
 	{
-		slow_ptr = slow_ptr->next;
-		fast_ptr = fast_ptr->next->next;
+		printf("[%p] %d\n", (void *)current, current->n);
+		count++;
+		current = current->next;
+		prev = head;
+		new_node = 0;
 
-		if (slow_ptr == fast_ptr)
+		while (new_node < count)
 		{
-			printf("Loop detected at node %d\n", slow_ptr->n);
-			return nodes;
+			if (current == prev)
+			{
+				printf("-> [%p] %d\n", (void *)current, current->n);
+				return (count);
+			}
+			prev = prev->next;
+			new_node++;
 		}
 	}
-
-	while (head != NULL)
-	{
-		printf("%d\n", head->n);
-		nodes++;
-		head = head->next;
-	}
-
-	return nodes;
+	return (count);
 }
