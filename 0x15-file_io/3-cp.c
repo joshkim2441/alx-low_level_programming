@@ -65,13 +65,13 @@ int main(int argc, char *argv[])
 	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0666);
 
 	do {
-		if (fd_from < 0 || bytes < 0)
+		if (fd_from == -1 || bytes == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 			exit(98);
 		}
 
-		if (fd_to < 0 || write(fd_to, buffer, bytes) != bytes)
+		if (fd_to == -1 || write(fd_to, buffer, bytes) == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
 			exit(99);
