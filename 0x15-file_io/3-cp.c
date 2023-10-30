@@ -1,93 +1,71 @@
 #include "main.h"
 
-#define BUFFER_SIZE 1024
-
-void close_file(int fd);
-char *creat_buff(char *file_to);
-
 /**
- * close_file - closes the file
- * @fd: the file descriptor to be closed
-*/
+ * exit_file - closes the file
+ * @file_from: the source file to be copied from
+ * @file_to: the destination file
+ * @argv: the array elements
+ */
 
-void close_file(int fd)
+void exit_file(int file_from, int file_to, char *argv[])
 {
-	int j;
-
-	j = close(fd);
-
-	if (j == -1)
+	if (file_from == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-		exit(100);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		exit(98);
 	}
-}
-
-/**
- * creat_buff - function allocates to a buffer 1024 bytes
- * @file_to: the file into which the buffer will write
- * Return: a pointer to the newly allocated buffer
-*/
-
-char *creat_buff(char *file_to)
-{
-	char *buff;
-
-	buff = malloc(sizeof(char) * 1024);
-
-	if (buff == NULL)
+	if (file_to == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
 		exit(99);
 	}
-
-	return (buff);
 }
+
 /**
- * main - copies the content of a file to another
- * @argc: the number of arguments
- * @argv: an array of the elements
- * Return: the copied file
-*/
+ * main - copies the buffer contents
+ * @argc: number of arguments
+ * @argv: array of elements
+ * Return: Always 0 success
+ */
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, bytes, write_count;
-	char *buffer;
+	int file_from, file_to, close_file;
+	ssize_t size, bytes;
+	char buffr[1024];
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		dprintf(STDERR_FILENO, "%s\n", "Usage: cp file_from file_to");
 		exit(97);
 	}
-	buffer = creat_buff(argv[2]);
-	fd_from = open(argv[1], O_RDONLY);
-	bytes = read(fd_from, buffer, BUFFER_SIZE);
-	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0666);
 
-	do {
-		if (fd_from == -1 || bytes == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-			free(buffer);
-			exit(98);
-		}
+	file_from = open(argv[1], O_RDONLY);
+	file_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0664);
+	exit_file(file_from, file_to, argv);
 
-		write_count = write(fd_to, buffer, bytes);
-		if (fd_to == -1 || write_count == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			free(buffer);
-			exit(99);
-		}
+	size = 1024;
+	while (size == 1024)
+	{
+		size = read(file_from, buffr, 1024);
+		if (size == -1)
+			exit_file(-1, 0, argv);
+		bytes = write(file_to, buffr, size);
+		if (bytes == -1)
+			exit_file(0, -1, argv);
+	}
 
-		fd_to = open(argv[2], O_WRONLY | O_APPEND);
-		bytes = read(fd_from, buffer, BUFFER_SIZE);
+	close_file = close(file_from);
+	if (close_file == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		exit(100);
+	}
 
-	} while (bytes > 0);
-
-	free(buffer);
-	close_file(fd_from);
-	close_file(fd_to);
-
+	close_file = close(file_to);
+	if (close_file == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
+		exit(100);
+	}
 	return (0);
 }
