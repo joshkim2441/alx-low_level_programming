@@ -51,7 +51,7 @@ char *creat_buff(char *file_to)
 */
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to, bytes;
+	int fd_from, fd_to, bytes, write_count;
 	char *buffer;
 
 	if (argc != 3)
@@ -68,12 +68,15 @@ int main(int argc, char *argv[])
 		if (fd_from == -1 || bytes == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+			free(buffer);
 			exit(98);
 		}
 
-		if (fd_to == -1 || write(fd_to, buffer, bytes) == -1)
+		write_count = write(fd_to, buffer, bytes);
+		if (fd_to == -1 || write_count == -1)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+			free(buffer);
 			exit(99);
 		}
 
