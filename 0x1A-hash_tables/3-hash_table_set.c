@@ -5,7 +5,7 @@
  * @ht: the hash table to be updated with the key/value
  * @key: the key, not an empty string
  * @value: value associated with the key, must be duplicated
- * 	cannot be an empty string
+ * cannot be an empty string
  * Return: 1 for success, 0 otherwise
 */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
