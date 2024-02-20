@@ -1,6 +1,6 @@
 CC = gcc
-SRC = school.c main.c
-OBJ = $(wilcard *.c)
+SRC = $(wilcard *.c)
+OBJ = $(SRC:.c=.o)
 NAME = school
 CFLAGS = -Wall -Werror -Wextra -pedantic
 
